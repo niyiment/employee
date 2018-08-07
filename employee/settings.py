@@ -27,11 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
-}
+
 
 # Application definition
 
@@ -81,16 +77,11 @@ WSGI_APPLICATION = 'employee.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        dj_database_url.config(
-        default=config('postgres://jlmmssldjhuith:ede1cbf6b4aca20e4c9f60b93096cc3e1d273a548ab3ef23383bdf43b14c12b7@ec2-54-235-212-58.compute-1.amazonaws.com:5432/d1okr575qjdf49')
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
     )
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+} 
 
 
 # Password validation
