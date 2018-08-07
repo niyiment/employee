@@ -20,13 +20,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'lu@nfbag7#y9-ofh2yff&48f9p%%1p1lmpa5+9v*4z7elp#pu9'
+from decouple import config
+
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
+}
 
 # Application definition
 
@@ -79,8 +84,11 @@ WSGI_APPLICATION = 'employee.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        dj_database_url.config(
+        default=config('postgres://jlmmssldjhuith:ede1cbf6b4aca20e4c9f60b93096cc3e1d273a548ab3ef23383bdf43b14c12b7@ec2-54-235-212-58.compute-1.amazonaws.com:5432/d1okr575qjdf49')
+    )
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -124,3 +132,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
