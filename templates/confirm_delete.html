@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} 
+  New Employee 
+{% endblock %} 
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">
+  <a href="{% url 'index' %}">Employees</a>
+</li>
+<li class="breadcrumb-item">
+    <small>Delete Record</small>
+</li>
+{% endblock %} 
+
+{% block content %}
+<form method="post" novalidate>
+  {% csrf_token %} 
+  <p>
+    Did you want to delete {{ employee.firstname }} {{ employee.lastname }}
+  </p>
+  <button type="submit" class="btn btn-danger">Delete Record</button>
+</form>
+{% endblock %}
